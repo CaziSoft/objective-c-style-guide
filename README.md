@@ -56,62 +56,65 @@ UIColor *myColor = [UIColor whiteColor];
 UIColor *myColour = [UIColor whiteColor];
 ```
 
+## Naming
 
-## Code Organization
+Apple naming conventions should be adhered to wherever possible, especially those related to [memory management rules](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/MemoryMgmt/Articles/MemoryMgmt.html) ([NARC](http://stackoverflow.com/a/2865194/340508)).
 
-Use `#pragma mark -` to categorize methods in functional groupings and protocol/delegate implementations following this general structure.
+Long, descriptive method and variable names are good.
+
+**Preferred:**
 
 ```objc
-#pragma mark - Lifecycle
+UIButton *settingsButton;
+@property (strong, nonatomic) NSString *descriptiveVariableName;
+```
 
-- (instancetype)init {}
-- (void)dealloc {}
-- (void)viewDidLoad {}
-- (void)viewWillAppear:(BOOL)animated {}
-- (void)didReceiveMemoryWarning {}
+**Not Preferred:**
 
-#pragma mark - Custom Accessors
+```objc
+UIButton *setBut;
+id varnm;
+```
 
-- (void)setCustomProperty:(id)value {}
-- (id)customProperty {}
+## Golden Path
 
-#pragma mark - IBActions
+When coding with conditionals, the left hand margin of the code should be the "golden" or "happy" path.  That is, don't nest `if` statements.  Multiple return statements are OK.
 
-- (IBAction)submitData:(id)sender {}
+**Preferred:**
 
-#pragma mark - Public
+```objc
+- (void)someMethod 
+{
+  if (![someOther boolValue]) {
+    return;
+  }
 
-- (void)publicMethod {}
+  //Do something important
+}
+```
 
-#pragma mark - Private
+**Not Preferred:**
 
-- (void)privateMethod {}
-
-#pragma mark - Protocol conformance
-#pragma mark - UITextFieldDelegate
-#pragma mark - UITableViewDataSource
-#pragma mark - UITableViewDelegate
-
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone {}
-
-#pragma mark - NSObject
-
-- (NSString *)description {}
+```objc
+- (void)someMethod 
+{
+  if ([someOther boolValue]) {
+    //Do something important
+  }
+}
 ```
 
 ## Spacing
 
-* Indent using 2 spaces (this conserves space in print and makes line wrapping less likely). Never indent with tabs. Be sure to set this preference in Xcode.
+* Indent using 4 spaces (this conserves space in print and makes line wrapping less likely). Never indent with tabs. Be sure to set this preference in Xcode.
 * Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but close on a new line.
 
 **Preferred:**
 ```objc
 if (user.isHappy) {
-  //Do something
+    //Do something
 } else {
-  //Do something else
+    //Do something else
 }
 ```
 
@@ -160,61 +163,22 @@ When they are needed, comments should be used to explain **why** a particular pi
 
 Block comments should generally be avoided, as code should be as self-documenting as possible, with only the need for intermittent, few-line explanations. *Exception: This does not apply to those comments used to generate documentation.*
 
-## Naming
-
-Apple naming conventions should be adhered to wherever possible, especially those related to [memory management rules](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/MemoryMgmt/Articles/MemoryMgmt.html) ([NARC](http://stackoverflow.com/a/2865194/340508)).
-
-Long, descriptive method and variable names are good.
+Use C style comments avoid `//`
 
 **Preferred:**
 
 ```objc
-UIButton *settingsButton;
+/* UIButton *settingsButton; */
 ```
 
 **Not Preferred:**
 
 ```objc
-UIButton *setBut;
+// UIButton *setBut;
 ```
 
-A three letter prefix should always be used for class names and constants, however may be omitted for Core Data entity names. For any official raywenderlich.com books, starter kits, or tutorials, the prefix 'RWT' should be used.
+do not use `#if 0` as Xcode's syntax heighliter won't undrestand it. (Hopefully they'll fix it)
 
-Constants should be camel-case with all words capitalized and prefixed by the related class name for clarity.
-
-**Preferred:**
-
-```objc
-static NSTimeInterval const RWTTutorialViewControllerNavigationFadeAnimationDuration = 0.3;
-```
-
-**Not Preferred:**
-
-```objc
-static NSTimeInterval const fadetime = 1.7;
-```
-
-Properties should be camel-case with the leading word being lowercase. Use auto-synthesis for properties rather than manual @synthesize statements unless you have good reason.
-
-**Preferred:**
-
-```objc
-@property (strong, nonatomic) NSString *descriptiveVariableName;
-```
-
-**Not Preferred:**
-
-```objc
-id varnm;
-```
-
-### Underscores
-
-When using properties, instance variables should always be accessed and mutated using `self.`. This means that all properties will be visually distinct, as they will all be prefaced with `self.`. 
-
-An exception to this: inside initializers, the backing instance variable (i.e. _variableName) should be used directly to avoid any potential side effects of the getters/setters.
-
-Local variables should not contain underscores.
 
 ## Methods
 
@@ -225,8 +189,6 @@ The usage of the word "and" is reserved.  It should not be used for multiple par
 **Preferred:**
 ```objc
 - (void)setExampleText:(NSString *)text image:(UIImage *)image;
-- (void)sendAction:(SEL)aSelector to:(id)anObject forAllCells:(BOOL)flag;
-- (id)viewWithTag:(NSInteger)tag;
 - (instancetype)initWithWidth:(CGFloat)width height:(CGFloat)height;
 ```
 
@@ -234,10 +196,7 @@ The usage of the word "and" is reserved.  It should not be used for multiple par
 
 ```objc
 -(void)setT:(NSString *)text i:(UIImage *)image;
-- (void)sendAction:(SEL)aSelector :(id)anObject :(BOOL)flag;
-- (id)taggedView:(NSInteger)tag;
-- (instancetype)initWithWidth:(CGFloat)width andHeight:(CGFloat)height;
-- (instancetype)initWith:(int)width and:(int)height;  // Never do this.
+- (instancetype)initWith:(int)width and:(int)height;  // Never do this. "and" is reserved.
 ```
 
 ## Variables
@@ -247,8 +206,6 @@ Variables should be named as descriptively as possible. Single letter variable n
 Asterisks indicating pointers belong with the variable, e.g., `NSString *text` not `NSString* text` or `NSString * text`, except in the case of constants.
 
 [Private properties](#private-properties) should be used in place of instance variables whenever possible. Although using instance variables is a valid way of doing things, by agreeing to prefer properties our code will be more consistent. 
-
-Direct access to instance variables that 'back' properties should be avoided except in initializer methods (`init`, `initWithCoder:`, etc…), `dealloc` methods and within custom setters and getters. For more information on using Accessor Methods in Initializer Methods and dealloc, see [here](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmPractical.html#//apple_ref/doc/uid/TP40004447-SW6).
 
 **Preferred:**
 
@@ -372,7 +329,7 @@ When using `enum`s, it is recommended to use the new fixed underlying type speci
 
 ```objc
 typedef NS_ENUM(NSInteger, RWTLeftMenuTopItemType) {
-  RWTLeftMenuTopItemMain,
+  RWTLeftMenuTopItemMain = 0,
   RWTLeftMenuTopItemShows,
   RWTLeftMenuTopItemSchedule
 };
@@ -382,10 +339,10 @@ You can also make explicit value assignments (showing older k-style constant def
 
 ```objc
 typedef NS_ENUM(NSInteger, RWTGlobalConstants) {
-  RWTPinSizeMin = 1,
-  RWTPinSizeMax = 5,
-  RWTPinCountMin = 100,
-  RWTPinCountMax = 500,
+  RWTPinSizeMin   = 1,
+  RWTPinSizeMax   = 5,
+  RWTPinCountMin  = 100,
+  RWTPinCountMax  = 500,
 };
 ```
 
@@ -400,88 +357,7 @@ enum GlobalConstants {
 };
 ```
 
-
-## Case Statements
-
-Braces are not required for case statements, unless enforced by the complier.  
-When a case contains more than one line, braces should be added.
-
-```objc
-switch (condition) {
-  case 1:
-    // ...
-    break;
-  case 2: {
-    // ...
-    // Multi-line example using braces
-    break;
-  }
-  case 3:
-    // ...
-    break;
-  default: 
-    // ...
-    break;
-}
-
-```
-
-There are times when the same code can be used for multiple cases, and a fall-through should be used.  A fall-through is the removal of the 'break' statement for a case thus allowing the flow of execution to pass to the next case value.  A fall-through should be commented for coding clarity.
-
-```objc
-switch (condition) {
-  case 1:
-    // ** fall-through! **
-  case 2:
-    // code executed for values 1 and 2
-    break;
-  default: 
-    // ...
-    break;
-}
-
-```
-
-When using an enumerated type for a switch, 'default' is not needed.   For example:
-
-```objc
-RWTLeftMenuTopItemType menuType = RWTLeftMenuTopItemMain;
-
-switch (menuType) {
-  case RWTLeftMenuTopItemMain:
-    // ...
-    break;
-  case RWTLeftMenuTopItemShows:
-    // ...
-    break;
-  case RWTLeftMenuTopItemSchedule:
-    // ...
-    break;
-}
-```
-
-
-## Private Properties
-
-Private properties should be declared in class extensions (anonymous categories) in the implementation file of a class. Named categories (such as `RWTPrivate` or `private`) should never be used unless extending another class.   The Anonymous category can be shared/exposed for testing using the <headerfile>+Private.h file naming convention.
-
-**For Example:**
-
-```objc
-@interface RWTDetailViewController ()
-
-@property (strong, nonatomic) GADBannerView *googleAdView;
-@property (strong, nonatomic) ADBannerView *iAdView;
-@property (strong, nonatomic) UIWebView *adXWebView;
-
-@end
-```
-
 ## Booleans
-
-Objective-C uses `YES` and `NO`.  Therefore `true` and `false` should only be used for CoreFoundation, C or C++ code.  Since `nil` resolves to `NO` it is unnecessary to compare it in conditions. Never compare something directly to `YES`, because `YES` is defined to 1 and a `BOOL` can be up to 8 bits.
-
-This allows for more consistency across files and greater visual clarity.
 
 **Preferred:**
 
@@ -495,8 +371,6 @@ if (![anotherObject boolValue]) {}
 ```objc
 if (someObject == nil) {}
 if ([anotherObject boolValue] == NO) {}
-if (isAwesome == YES) {} // Never do this.
-if (isAwesome == true) {} // Never do this.
 ```
 
 If the name of a `BOOL` property is expressed as an adjective, the property can omit the “is” prefix but specifies the conventional name for the get accessor, for example:
@@ -554,7 +428,8 @@ result = a > b ? x = c > d ? c : d : y;
 Init methods should follow the convention provided by Apple's generated code template.  A return type of 'instancetype' should also be used instead of 'id'.
 
 ```objc
-- (instancetype)init {
+- (instancetype)init 
+{
   self = [super init];
   if (self) {
     // ...
@@ -607,39 +482,13 @@ CGFloat height = frame.size.height;
 CGRect frame = (CGRect){ .origin = CGPointZero, .size = frame.size };
 ```
 
-## Golden Path
-
-When coding with conditionals, the left hand margin of the code should be the "golden" or "happy" path.  That is, don't nest `if` statements.  Multiple return statements are OK.
-
-**Preferred:**
-
-```objc
-- (void)someMethod {
-  if (![someOther boolValue]) {
-	return;
-  }
-
-  //Do something important
-}
-```
-
-**Not Preferred:**
-
-```objc
-- (void)someMethod {
-  if ([someOther boolValue]) {
-    //Do something important
-  }
-}
-```
-
 ## Error handling
 
 When methods return an error parameter by reference, switch on the returned value, not the error variable.
 
 **Preferred:**
 ```objc
-NSError *error;
+NSError *error = nil;
 if (![self trySomethingWithError:&error]) {
   // Handle Error
 }
@@ -656,6 +505,49 @@ if (error) {
 
 Some of Apple’s APIs write garbage values to the error parameter (if non-NULL) in successful cases, so switching on the error can cause false negatives (and subsequently crash).
 
+## Code Organization
+
+Use `#pragma mark -` to categorize methods in functional groupings and protocol/delegate implementations following this general structure.
+
+```objc
+#pragma mark - Lifecycle
+
+- (instancetype)init {}
+- (void)dealloc {}
+- (void)viewDidLoad {}
+- (void)viewWillAppear:(BOOL)animated {}
+- (void)didReceiveMemoryWarning {}
+
+#pragma mark - Accessors
+
+- (void)setCustomProperty:(id)value {}
+- (id)customProperty {}
+
+#pragma mark - IBActions
+
+- (IBAction)submitData:(id)sender {}
+
+#pragma mark - Public
+
+- (void)publicMethod {}
+
+#pragma mark - Private
+
+- (void)privateMethod {}
+
+#pragma mark - Protocol conformance
+#pragma mark - UITextFieldDelegate
+#pragma mark - UITableViewDataSource
+#pragma mark - UITableViewDelegate
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {}
+
+#pragma mark - NSObject
+
+- (NSString *)description {}
+```
 
 ## Singletons
 
@@ -673,54 +565,3 @@ Singleton objects should use a thread-safe pattern for creating their shared ins
 }
 ```
 This will prevent [possible and sometimes prolific crashes](http://cocoasamurai.blogspot.com/2011/04/singletons-your-doing-them-wrong.html).
-
-
-## Line Breaks
-
-Line breaks are an important topic since this style guide is focused for print and online readability.
-
-For example:
-```objc
-self.productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
-```
-A long line of code like this should be carried on to the second line adhering to this style guide's Spacing section (two spaces).
-```objc
-self.productsRequest = [[SKProductsRequest alloc] 
-  initWithProductIdentifiers:productIdentifiers];
-```
-
-
-## Smiley Face
-
-Smiley faces are a very prominent style feature of the raywenderlich.com site!  It is very important to have the correct smile signifying the immense amount of happiness and excitement for the coding topic.  The end square bracket is used because it represents the largest smile able to be captured using ascii art.  A half-hearted smile is represented if an end parenthesis is used, and thus not preferred.
-
-**Preferred:**
-```objc
-:]
-```
-
-**Not Preferred:**
-```objc
-:)
-```  
-
-
-## Xcode project
-
-The physical files should be kept in sync with the Xcode project files in order to avoid file sprawl. Any Xcode groups created should be reflected by folders in the filesystem. Code should be grouped not only by type, but also by feature for greater clarity.
-
-When possible, always turn on "Treat Warnings as Errors" in the target's Build Settings and enable as many [additional warnings](http://boredzo.org/blog/archives/2009-11-07/warnings) as possible. If you need to ignore a specific warning, use [Clang's pragma feature](http://clang.llvm.org/docs/UsersManual.html#controlling-diagnostics-via-pragmas).
-
-# Other Objective-C Style Guides
-
-If ours doesn't fit your tastes, have a look at some other style guides:
-
-* [Robots & Pencils](https://github.com/RobotsAndPencils/objective-c-style-guide)
-* [New York Times](https://github.com/NYTimes/objective-c-style-guide)
-* [Google](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml)
-* [GitHub](https://github.com/github/objective-c-conventions)
-* [Adium](https://trac.adium.im/wiki/CodingStyle)
-* [Sam Soffes](https://gist.github.com/soffes/812796)
-* [CocoaDevCentral](http://cocoadevcentral.com/articles/000082.php)
-* [Luke Redpath](http://lukeredpath.co.uk/blog/my-objective-c-style-guide.html)
-* [Marcus Zarra](http://www.cimgf.com/zds-code-style-guide/)
