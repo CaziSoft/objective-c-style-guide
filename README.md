@@ -1,38 +1,5 @@
 # Objective-C style guide. 
 
-This style guide is based on raywenderlich/objective-c-style-guide
-
-## Table of Contents
-
-* [Language](#language)
-* [Code Organization](#code-organization)
-* [Spacing](#spacing)
-* [Comments](#comments)
-* [Naming](#naming)
-  * [Underscores](#underscores)
-* [Methods](#methods)
-* [Variables](#variables)
-* [Property Attributes](#property-attributes)
-* [Dot-Notation Syntax](#dot-notation-syntax)
-* [Literals](#literals)
-* [Constants](#constants)
-* [Enumerated Types](#enumerated-types)
-* [Case Statements](#case-statements)
-* [Private Properties](#private-properties)
-* [Booleans](#booleans)
-* [Conditionals](#conditionals)
-  * [Ternary Operator](#ternary-operator)
-* [Init Methods](#init-methods)
-* [Class Constructor Methods](#class-constructor-methods)
-* [CGRect Functions](#cgrect-functions)
-* [Golden Path](#golden-path)
-* [Error handling](#error-handling)
-* [Singletons](#singletons)
-* [Line Breaks](#line-breaks)
-* [Smiley Face](#smiley-face)
-* [Xcode Project](#xcode-project)
-
-
 ## Language
 
 US English should be used.
@@ -556,3 +523,6 @@ Singleton objects should use a thread-safe pattern for creating their shared ins
 }
 ```
 This will prevent [possible and sometimes prolific crashes](http://cocoasamurai.blogspot.com/2011/04/singletons-your-doing-them-wrong.html).
+
+
+PS.This style guide is based on raywenderlich/objective-c-style-guide
