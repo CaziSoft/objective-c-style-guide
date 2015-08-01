@@ -1,4 +1,4 @@
-# The un-official Objective-C style guide. 
+# Objective-C style guide. 
 
 This style guide is based on raywenderlich/objective-c-style-guide
 
