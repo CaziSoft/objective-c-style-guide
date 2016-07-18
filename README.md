@@ -121,21 +121,20 @@ When they are needed, comments should be used to explain **why** a particular pi
 
 Block comments should generally be avoided, as code should be as self-documenting as possible, with only the need for intermittent, few-line explanations. *Exception: This does not apply to those comments used to generate documentation.*
 
-Use C style comments avoid `//`
-
 **Preferred:**
-
-```objc
-/* UIButton *settingsButton; */
-```
-
-**Not Preferred:**
 
 ```objc
 // UIButton *setBut;
 ```
 
-do not use `#if 0` as Xcode's syntax heighliter won't undrestand it. (Hopefully they'll fix it)
+
+**Not Preferred:**
+
+```objc
+/* UIButton *settingsButton; */
+```
+
+Do *not* use `#if 0` as Xcode's syntax heighliter won't undrestand.
 
 
 ## Methods
