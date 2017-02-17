@@ -65,7 +65,24 @@ When coding with conditionals, the left hand margin of the code should be the "g
 ## Spacing
 
 * Indent using 4 spaces (this conserves space in print and makes line wrapping less likely). Never indent with tabs. Be sure to set this preference in Xcode.
-* Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but close on a new line.
+* Method braces open on next line.
+
+**Preferred:**
+```objc
+- (void)methodName
+{
+    //Do something
+}
+```
+
+**Not Preferred:**
+```objc
+- (void)methodName {
+    //Do something
+}
+```
+
+* Other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but close on a new line.
 
 **Preferred:**
 ```objc
