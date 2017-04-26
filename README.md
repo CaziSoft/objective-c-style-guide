@@ -202,19 +202,19 @@ Asterisks indicating pointers belong with the variable, e.g., `NSString *text` n
 
 ## Property Attributes
 
-Property attributes should be explicitly listed, and will help new programmers when reading the code.  The order of properties should be storage then atomicity, which is consistent with automatically generated code when connecting UI elements from Interface Builder.
+Property attributes should be explicitly listed, and will help new programmers when reading the code.  The order of properties should be atomicity then storage.
 
 **Preferred:**
 
 ```objc
-@property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (strong, nonatomic) NSString *tutorialName;
+@property (nonatomic, weak) IBOutlet UIView *containerView;
+@property (nonatomic, strong) NSString *tutorialName;
 ```
 
 **Not Preferred:**
 
 ```objc
-@property (nonatomic, weak) IBOutlet UIView *containerView;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (nonatomic) NSString *tutorialName;
 ```
 
